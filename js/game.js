@@ -33,7 +33,7 @@ function Game(){
 	},
 	setup = function(){
 		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.position.z = 15;
+		camera.position.z = 10;
 		document.body.appendChild(renderer.domElement);
 		// document.body.appendChild(Planet().randomTexture());
 		document.addEventListener('mousedown', navigation, false);
@@ -55,7 +55,7 @@ var calc = Calc();
 flourish.setup(); 
 
 for(i=0;i<15;i++){
-	var eve = Planet();
+	var eve = Planet({name:'eve'+i});
 	eve.add(calc.getBetween(-5,12),calc.getBetween(-5,12));
 	flourish.planets.add('eve'+i,eve);
 }
