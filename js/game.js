@@ -15,10 +15,29 @@ function Game(){
 		// Flourish.camera.rotation.z += 0.01;
 
 	},
+	mouseMove = function(){
+		if (event.clientX > window.innerWidth-100)
+			Flourish.camera.position.x++;
+		if (event.clientX < 100)
+			Flourish.camera.position.x--;
+
+		if (event.clientY > window.innerHeight-100)
+			Flourish.camera.position.y--;
+		if (event.clientY < 100)
+			Flourish.camera.position.y++;
+	},
+
+	resizeWindow = function(){
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+	},
 	setup = function(){
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		camera.position.z = 5;
 		document.body.appendChild( renderer.domElement );
+		document.addEventListener( 'mousedown', mouseMove, false );
+		window.addEventListener( 'resize', resizeWindow, false );
 	};
 	that.loop = loop;
 	that.setup = setup;
@@ -50,7 +69,7 @@ function Planet(){
 
 			}) );
 
-			sphere.position.x = x;
+		sphere.position.x = x;
 		sphere.position.y = y;
 		that.sphere = sphere;
 		Flourish.scene.add(sphere);
@@ -68,6 +87,7 @@ function Planet(){
 	},
 	render = function(){
 		this.sphere.rotation.y += 0.05; 
+		
 	};
 	that.render=render;
 	that.add = add; 
@@ -117,9 +137,6 @@ function generateTexture( ) {
     gradient.addColorStop(1, '#000');
     context.fillStyle = gradient;
     context.fill();
-
-
-
     return canvas;
 
 }
