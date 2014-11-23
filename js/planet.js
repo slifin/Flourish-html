@@ -1,21 +1,34 @@
 function Planet(){
 	var that = {},
 	randomTexture = function(){
-		var size = 128;
+		var size = 200;
 		var canvas = document.createElement( 'canvas' );
 		canvas.width = size;
 		canvas.height = size;
 		var context = canvas.getContext( '2d' );
-		context.rect( 0, 0, size*5, size*5 );
-		var gradient = context.createRadialGradient( 1, 1, size, size,0,0);
-		gradient.addColorStop(0, '#fff');
-		gradient.addColorStop(0.2, '#ccc');
-		gradient.addColorStop(0.3, '#fff');
-		gradient.addColorStop(0.5, '#fff');
-		gradient.addColorStop(0.6, '#fff');
-		gradient.addColorStop(1, '#000');
-		context.fillStyle = gradient;
-		context.fill();
+		context.rect( 0, 0, size, size);
+		var x = 100, y = 100;
+		var gradient = context.createRadialGradient( x,y,10,x,y,100);
+		var calc = Calc();
+
+		for(var i = calc.getBetween(3,10);i<10;i++)
+			gradient.addColorStop(calc.getBetween(0,1),calc.getRandomColor());
+		var opacity = 1;
+
+
+		that.strength = calc.getBetween(20,50);
+		for(i = 0;i < that.strength;i++){
+			// context.fillRect(calc.getBetween(-200,200), calc.getBetween(-200,200), 220,220);
+			context.beginPath();
+			context.fillStyle = "rgba(" + Math.floor(calc.getBetween(50,255)) + "," + Math.floor(calc.getBetween(50,255)) + "," + Math.floor(calc.getBetween(50,255)) + "," + calc.getBetween(0.1,1) + ")";
+
+			context.arc(calc.getBetween(0,200),calc.getBetween(0,200),calc.getBetween(0,100),calc.getBetween(0,100),calc.getBetween(0,100),calc.getBetween(0,1));
+			context.fill();
+		}
+
+
+		// context.fillStyle = gradient;
+		// context.fill();
 		return canvas;
 	},
 	add = function(x,y){
@@ -26,9 +39,9 @@ function Planet(){
 			sphereGeometry,
 			new THREE.MeshBasicMaterial({
 				map:texture,
-				transparent:true,
-				color: Math.random() *0x00AAFF,
+				transparent:false,
 				wireframe: false,
+				color:0x00AA00
 			}) );
 		sphere.position.x = x;
 		sphere.position.y = y;
@@ -44,8 +57,15 @@ function Planet(){
 
 	},
 	render = function(){
-		this.sphere.rotation.y += 0.05; 
+		var min = -0.002, max = 0.002;
+		if ((Math.random()*2) % 2)
+			this.sphere.rotation.y += Calc().getBetween(min,max); 
+		if ((Math.random()*2) % 2)
+			this.sphere.rotation.z += Calc().getBetween(min,max); 
+		if ((Math.random()*2) % 2)
+			this.sphere.rotation.x += Calc().getBetween(min,max); 
 	};
+	that.randomTexture = randomTexture;
 	that.render=render;
 	that.add = add; 
 	return that; 

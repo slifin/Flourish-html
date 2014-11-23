@@ -35,6 +35,7 @@ function Game(){
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		camera.position.z = 15;
 		document.body.appendChild(renderer.domElement);
+		// document.body.appendChild(Planet().randomTexture());
 		document.addEventListener('mousedown', navigation, false);
 		window.addEventListener('resize', resizeWindow, false );
 	};
